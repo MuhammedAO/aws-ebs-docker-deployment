@@ -15,40 +15,38 @@ services:
       dockerfile: Dockerfile.dev
       context: ./nginx
     ports:
-      - "6119:80"
+      - '3050:80'
   api:
-    depends_on:
-      - postgres
     build:
       dockerfile: Dockerfile.dev
       context: ./server
     volumes:
-      - /usr/app/node_modules
-      - ./server:/usr/app
+      - /app/node_modules
+      - ./server:/app
     environment:
       - REDIS_HOST=redis
       - REDIS_PORT=6379
-      - PG_USER=postgres
-      - PG_HOST=postgres
-      - PG_DATABASE=postgres
-      - PG_PASSWORD=postgres_password
-      - PG_PORT=5432
+      - PGUSER=postgres
+      - PGHOST=postgres
+      - PGDATABASE=postgres
+      - PGPASSWORD=postgres_password
+      - PGPORT=5432
   client:
+    environment:
+      - WDS_SOCKET_PORT=0
     build:
       dockerfile: Dockerfile.dev
       context: ./client
     volumes:
-      - /usr/app/node_modules
-      - ./client:/usr/app
-    environment:
-      - WDS_SOCKET_PORT=0
+      - /app/node_modules
+      - ./client:/app
   worker:
     build:
       dockerfile: Dockerfile.dev
       context: ./worker
     volumes:
-      - /usr/app/node_modules
-      - ./worker:/usr/app
+      - /app/node_modules
+      - ./worker:/app
     environment:
       - REDIS_HOST=redis
       - REDIS_PORT=6379
