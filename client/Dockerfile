@@ -1,7 +1,7 @@
 # builder : name of this first step
 FROM node:16-alpine as builder   
 
-WORKDIR /usr/app
+WORKDIR '/app'
 
 COPY ./package.json ./
 
